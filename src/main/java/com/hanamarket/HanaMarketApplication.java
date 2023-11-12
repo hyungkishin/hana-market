@@ -1,4 +1,4 @@
-package com.example.hanamarket;
+package com.hanamarket;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
