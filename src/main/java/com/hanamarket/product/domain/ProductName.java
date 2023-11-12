@@ -1,4 +1,4 @@
-package com.hanamarket;
+package com.hanamarket.product.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

@@ -1,5 +1,10 @@
-package com.hanamarket;
+package com.hanamarket.product.application;
 
+import com.hanamarket.product.domain.ProductJpaEntity;
+import com.hanamarket.product.infrastructure.ProductRepository;
+import com.hanamarket.product.ui.request.CreateProductRequest;
+import com.hanamarket.product.ui.response.CreateProductResponse;
+import com.hanamarket.product.ui.response.FindProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

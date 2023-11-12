@@ -1,5 +1,9 @@
-package com.hanamarket;
+package com.hanamarket.product.ui;
 
+import com.hanamarket.product.ui.response.FindProductResponse;
+import com.hanamarket.product.application.ProductService;
+import com.hanamarket.product.ui.request.CreateProductRequest;
+import com.hanamarket.product.ui.response.CreateProductResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

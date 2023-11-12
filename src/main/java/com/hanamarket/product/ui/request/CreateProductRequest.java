@@ -1,5 +1,8 @@
-package com.hanamarket;
+package com.hanamarket.product.ui.request;
 
+import com.hanamarket.product.domain.ProductJpaEntity;
+import com.hanamarket.product.domain.ProductName;
+import com.hanamarket.product.domain.ProductStatus;
 import lombok.Getter;
 
 @Getter

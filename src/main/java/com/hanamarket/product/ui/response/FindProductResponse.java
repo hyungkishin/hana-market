@@ -1,5 +1,7 @@
-package com.hanamarket;
+package com.hanamarket.product.ui.response;
 
+import com.hanamarket.product.domain.ProductJpaEntity;
+import com.hanamarket.product.domain.ProductStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 

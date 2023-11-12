@@ -1,5 +1,9 @@
 package com.hanamarket;
 
+import com.hanamarket.product.domain.ProductJpaEntity;
+import com.hanamarket.product.domain.ProductStatus;
+import com.hanamarket.product.infrastructure.ProductRepository;
+import com.hanamarket.product.ui.request.CreateProductRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

@@ -1,5 +1,7 @@
-package com.hanamarket;
+package com.hanamarket.product.domain;
 
+import com.hanamarket.converter.CustomEnumType;
+import com.hanamarket.converter.CustomType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,7 +31,7 @@ public class ProductJpaEntity {
     @Column(name = "view_count", columnDefinition = "INT COMMENT '상품 조회수'")
     private int viewCount;
 
-    @Enumerated(EnumType.STRING)
+    @CustomType(type = CustomEnumType.NAME)
     @Column(name = "status", length = 20, columnDefinition = "VARCHAR(20) COMMENT '상품 상태'")
     private ProductStatus status;
 

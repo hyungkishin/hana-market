@@ -1,5 +1,6 @@
 package com.hanamarket;
 
+import com.hanamarket.product.domain.ProductName;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

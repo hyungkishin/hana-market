@@ -1,4 +1,4 @@
-package com.hanamarket;
+package com.hanamarket.product.ui.response;
 
 import lombok.Getter;
 
