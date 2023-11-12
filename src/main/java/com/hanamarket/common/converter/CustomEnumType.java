@@ -1,4 +1,4 @@
-package com.hanamarket.converter;
+package com.hanamarket.common.converter;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -15,7 +15,7 @@ import java.util.Properties;
 public class CustomEnumType implements UserType, DynamicParameterizedType {
 
     // 타입 명
-    public static final String NAME = "com.hanamarket.converter.CustomEnumType";
+    public static final String NAME = "com.hanamarket.common.converter.CustomEnumType";
 
     private Class<? extends BaseEnum> enumClass;
     private String entityName;

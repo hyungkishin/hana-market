@@ -1,7 +1,7 @@
 package com.hanamarket.product.domain;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.hanamarket.converter.BaseEnum;
+import com.hanamarket.common.converter.BaseEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

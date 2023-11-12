@@ -1,7 +1,7 @@
 package com.hanamarket.product.domain;
 
-import com.hanamarket.converter.CustomEnumType;
-import com.hanamarket.converter.CustomType;
+import com.hanamarket.common.converter.CustomEnumType;
+import com.hanamarket.common.converter.CustomType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

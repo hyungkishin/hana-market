@@ -1,4 +1,4 @@
-package com.hanamarket.converter;
+package com.hanamarket.common.converter;
 
 public interface BaseEnum {
     Object getCode();

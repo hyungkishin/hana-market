@@ -1,4 +1,4 @@
-package com.hanamarket.converter;
+package com.hanamarket.common.converter;
 
 import org.hibernate.annotations.Parameter;
 

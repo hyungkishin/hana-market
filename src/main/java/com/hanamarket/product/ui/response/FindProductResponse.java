@@ -1,12 +1,15 @@
 package com.hanamarket.product.ui.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hanamarket.product.domain.ProductJpaEntity;
 import com.hanamarket.product.domain.ProductStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class FindProductResponse {
 
     private String productName;
@@ -19,8 +22,10 @@ public class FindProductResponse {
 
     private String description;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
 
