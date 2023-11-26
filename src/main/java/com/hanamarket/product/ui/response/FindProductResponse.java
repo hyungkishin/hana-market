@@ -1,22 +1,24 @@
 package com.hanamarket.product.ui.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hanamarket.product.domain.ProductJpaEntity;
-import com.hanamarket.product.domain.ProductStatus;
+import com.hanamarket.product.domain.GoodsJpaEntity;
+import com.hanamarket.product.domain.GoodsStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FindProductResponse {
 
     private String productName;
 
     private int viewCount;
 
-    private ProductStatus status;
+    private GoodsStatus status;
 
     private int sellPrice;
 
@@ -29,10 +31,10 @@ public class FindProductResponse {
     private LocalDateTime updatedAt;
 
 
-    @Builder(access = AccessLevel.PROTECTED)
+    @Builder
     public FindProductResponse(String productName,
                                int viewCount,
-                               ProductStatus status,
+                               GoodsStatus status,
                                int sellPrice,
                                String description,
                                LocalDateTime createdAt,
@@ -46,15 +48,15 @@ public class FindProductResponse {
         this.updatedAt = updatedAt;
     }
 
-    public static FindProductResponse of(ProductJpaEntity productJpaEntity) {
+    public static FindProductResponse of(GoodsJpaEntity goodsJpaEntity) {
         return FindProductResponse.builder()
-                .productName(productJpaEntity.getProductName())
-                .viewCount(productJpaEntity.getViewCount())
-                .status(productJpaEntity.getStatus())
-                .sellPrice(productJpaEntity.getSellPrice())
-                .description(productJpaEntity.getDescription())
-                .createdAt(productJpaEntity.getCreatedAt())
-                .updatedAt(productJpaEntity.getUpdatedAt())
+                .productName(goodsJpaEntity.getGoodsName())
+                .viewCount(goodsJpaEntity.getViewCount())
+                .status(goodsJpaEntity.getStatus())
+                .sellPrice(goodsJpaEntity.getSellPrice())
+                .description(goodsJpaEntity.getDescription())
+                .createdAt(goodsJpaEntity.getCreatedAt())
+                .updatedAt(goodsJpaEntity.getUpdatedAt())
                 .build();
     }
 

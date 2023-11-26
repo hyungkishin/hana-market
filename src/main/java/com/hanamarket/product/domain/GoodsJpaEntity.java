@@ -17,23 +17,23 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "product")
-public class ProductJpaEntity {
+@Table(name = "goods")
+public class GoodsJpaEntity {
 
     @Id
     @GeneratedValue // (strategy = GenerationType.IDENTITY) todo mysql
-    @Column(name = "id", columnDefinition = "BIGINT COMMENT '상품 Id'")
+    @Column(name = "goods_id", columnDefinition = "BIGINT COMMENT '상품 Id'")
     private Long id;
 
-    @Column(name = "product_name", length = 100, columnDefinition = "VARCHAR(255) COMMENT '상품 제목'", nullable = false)
-    private ProductName productName;
+    @Column(name = "goods_name", length = 100, columnDefinition = "VARCHAR(255) COMMENT '상품 제목'", nullable = false)
+    private GoodsName goodsName;
 
     @Column(name = "view_count", columnDefinition = "INT COMMENT '상품 조회수'")
     private int viewCount;
 
     @CustomType(type = CustomEnumType.NAME)
     @Column(name = "status", length = 20, columnDefinition = "VARCHAR(20) COMMENT '상품 상태'")
-    private ProductStatus status;
+    private GoodsStatus status;
 
     @Column(name = "sell_price", columnDefinition = "INT COMMENT '상품 가격'")
     private int sellPrice;
@@ -53,18 +53,18 @@ public class ProductJpaEntity {
     private LocalDateTime updatedAt;
 
     @Builder
-    public ProductJpaEntity(ProductName productName,
-                            ProductStatus status,
-                            int sellPrice,
-                            String description) {
-        this.productName = productName;
+    public GoodsJpaEntity(GoodsName goodsName,
+                          GoodsStatus status,
+                          int sellPrice,
+                          String description) {
+        this.goodsName = goodsName;
         this.status = status;
         this.sellPrice = sellPrice;
         this.description = description;
     }
 
-    public String getProductName() {
-        return productName.getValue();
+    public String getGoodsName() {
+        return goodsName.getValue();
     }
 
 }

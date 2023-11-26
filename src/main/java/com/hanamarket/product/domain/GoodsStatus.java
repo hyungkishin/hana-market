@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ProductStatus implements BaseEnum {
+public enum GoodsStatus implements BaseEnum {
     NEW("C", "신규"),
     RESERVED("R", "예약중"),
     SOLDOUT("S", "판매 완료");

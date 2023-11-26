@@ -1,8 +1,8 @@
 package com.hanamarket;
 
-import com.hanamarket.product.domain.ProductJpaEntity;
-import com.hanamarket.product.domain.ProductStatus;
-import com.hanamarket.product.infrastructure.ProductRepository;
+import com.hanamarket.product.domain.GoodsJpaEntity;
+import com.hanamarket.product.domain.GoodsStatus;
+import com.hanamarket.product.domain.GoodsRepository;
 import com.hanamarket.product.ui.request.CreateProductRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +11,19 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-class ProductRepositoryTest {
+class GoodsRepositoryTest {
 
     @Autowired
-    private ProductRepository repository;
+    private GoodsRepository repository;
 
 
     @Test
     void 상품_생성() {
         // Given
-        CreateProductRequest createProductRequest = new CreateProductRequest("상품1", ProductStatus.NEW, 10000, "싸게 팔아요");
+        CreateProductRequest createProductRequest = new CreateProductRequest("상품1", GoodsStatus.NEW, 10000, "싸게 팔아요");
 
         // When
-        ProductJpaEntity expectProduct = repository.save(createProductRequest.toEntity());
+        GoodsJpaEntity expectProduct = repository.save(createProductRequest.toEntity());
 
         // Then
         assertThat(expectProduct).isNotNull();
