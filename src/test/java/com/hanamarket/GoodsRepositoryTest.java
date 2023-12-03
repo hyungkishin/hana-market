@@ -1,8 +1,8 @@
 package com.hanamarket;
 
 import com.hanamarket.product.domain.GoodsJpaEntity;
-import com.hanamarket.product.domain.GoodsStatus;
 import com.hanamarket.product.domain.GoodsRepository;
+import com.hanamarket.product.domain.GoodsStatus;
 import com.hanamarket.product.ui.request.CreateProductRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
