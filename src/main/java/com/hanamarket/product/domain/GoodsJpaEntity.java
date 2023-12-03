@@ -25,7 +25,7 @@ public class GoodsJpaEntity {
     @Column(name = "goods_id", columnDefinition = "BIGINT COMMENT '상품 Id'")
     private Long id;
 
-    @Column(name = "goods_name", length = 100, columnDefinition = "VARCHAR(255) COMMENT '상품 제목'", nullable = false)
+    @Embedded
     private GoodsName goodsName;
 
     @Column(name = "view_count", columnDefinition = "INT COMMENT '상품 조회수'")
