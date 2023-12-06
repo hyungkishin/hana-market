@@ -14,57 +14,55 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Getter
-@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "goods")
-public class GoodsJpaEntity {
+@Entity
+@Table(name = "GOODS")
+public class Goods {
 
     @Id
-    @GeneratedValue // (strategy = GenerationType.IDENTITY) todo mysql
-    @Column(name = "goods_id", columnDefinition = "BIGINT COMMENT '상품 Id'")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "GOODS_ID", nullable = false)
+    private Long goodsId;
 
-    @Embedded
-    private GoodsName goodsName;
+    @Column(name = "GOODS_NAME", length = 100)
+    private String goodsName;
 
-    @Column(name = "view_count", columnDefinition = "INT COMMENT '상품 조회수'")
+    @Column(name = "VIEW_COUNT")
     private int viewCount;
 
+    @Column(name = "GOODS_STATUS")
     @CustomType(type = CustomEnumType.NAME)
-    @Column(name = "status", length = 20, columnDefinition = "VARCHAR(20) COMMENT '상품 상태'")
     private GoodsStatus status;
 
-    @Column(name = "sell_price", columnDefinition = "INT COMMENT '상품 가격'")
+    @Column(name = "SELL_PRICE")
     private int sellPrice;
 
     @Lob
-    @Column(name = "description", columnDefinition = "TEXT COMMENT '상품 설명'")
+    @Column(name = "DESCRIPTION")
     private String description;
 
     @CreatedDate
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP COMMENT '생성 일시'")
+    @Column(name = "CREATED_AT")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP COMMENT '수정 일시'")
+    @Column(name = "UPDATED_AT")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
     @Builder
-    public GoodsJpaEntity(GoodsName goodsName,
-                          GoodsStatus status,
-                          int sellPrice,
-                          String description) {
+    public Goods(String goodsName,
+                 int viewCount,
+                 GoodsStatus status,
+                 int sellPrice,
+                 String description) {
         this.goodsName = goodsName;
+        this.viewCount = viewCount;
         this.status = status;
         this.sellPrice = sellPrice;
         this.description = description;
-    }
-
-    public String getGoodsName() {
-        return goodsName.getValue();
     }
 
 }

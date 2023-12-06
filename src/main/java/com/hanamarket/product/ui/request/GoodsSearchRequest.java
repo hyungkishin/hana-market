@@ -1,7 +1,7 @@
 package com.hanamarket.product.ui.request;
 
 import com.hanamarket.common.annotation.ColumnDescription;
-import com.hanamarket.product.domain.GoodsJpaEntity;
+import com.hanamarket.product.domain.Goods;
 import com.hanamarket.product.domain.GoodsStatus;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.constraints.NotNull;
@@ -57,7 +57,7 @@ public class GoodsSearchRequest {
         return this.size;
     }
 
-    public Specification<GoodsJpaEntity> withSearchParameters() {
+    public Specification<Goods> withSearchParameters() {
         return (root, query, criteriaBuilder) -> {
 
             List<Predicate> predicates = new ArrayList<>();

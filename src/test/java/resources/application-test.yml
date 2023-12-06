@@ -1,0 +1,17 @@
+spring:
+  test.database.replace: none
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;MODE=MySQL;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1
+    username: test
+  jpa:
+    hibernate:
+      ddl-auto: create
+    generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+logging:
+  level:
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

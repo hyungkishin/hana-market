@@ -2,7 +2,7 @@ package com.hanamarket.product.application;
 
 import com.hanamarket.common.exception.MarketRuntimeException;
 import com.hanamarket.common.exception.message.ProductErrorCode;
-import com.hanamarket.product.domain.GoodsJpaEntity;
+import com.hanamarket.product.domain.Goods;
 import com.hanamarket.product.domain.GoodsRepository;
 import com.hanamarket.product.ui.request.CreateProductRequest;
 import com.hanamarket.product.ui.request.GoodsSearchRequest;
@@ -30,23 +30,23 @@ public class GoodsService {
 
     @Transactional
     public CreateProductResponse createGoods(final CreateProductRequest request) {
-        GoodsJpaEntity createProduct = goodsRepository.save(request.toEntity());
+        Goods createProduct = goodsRepository.save(request.toEntity());
 
-        return CreateProductResponse.of(createProduct.getId());
+        return CreateProductResponse.of(createProduct.getGoodsId());
     }
 
     public FindProductResponse findByGoods(final Long productId) {
-        GoodsJpaEntity goodsJpaEntity = goodsRepository.findById(productId)
+        Goods goods = goodsRepository.findById(productId)
                 .orElseThrow(() -> new MarketRuntimeException(ProductErrorCode.NOT_FOUND_PRODUCT, "존재하지 않는 상품입니다"));
 
-        return FindProductResponse.of(goodsJpaEntity);
+        return FindProductResponse.of(goods);
     }
 
     public GoodsPageResponse searchGoods(GoodsSearchRequest searchRequest) {
-        Specification<GoodsJpaEntity> spec = searchRequest.withSearchParameters();
+        Specification<Goods> spec = searchRequest.withSearchParameters();
         PageRequest pageRequest = PageRequest.of(searchRequest.getPage(), searchRequest.getSize());
 
-        Page<GoodsJpaEntity> resultPage = goodsRepository.findAll(spec, pageRequest);
+        Page<Goods> resultPage = goodsRepository.findAll(spec, pageRequest);
 
         List<GoodsDto> goodsDtoList = resultPage.getContent()
                 .stream()

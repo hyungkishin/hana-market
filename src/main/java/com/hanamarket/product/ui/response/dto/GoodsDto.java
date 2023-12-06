@@ -1,6 +1,6 @@
 package com.hanamarket.product.ui.response.dto;
 
-import com.hanamarket.product.domain.GoodsJpaEntity;
+import com.hanamarket.product.domain.Goods;
 import com.hanamarket.product.domain.GoodsStatus;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class GoodsDto {
 
     private int viewCount;
 
-    private GoodsStatus status;
+    private GoodsStatus goodsStatus;
 
     private int sellPrice;
 
@@ -28,16 +28,16 @@ public class GoodsDto {
 
     private LocalDateTime updatedAt;
 
-    public static GoodsDto fromEntity(GoodsJpaEntity goodsJpaEntity) {
+    public static GoodsDto fromEntity(Goods goods) {
         return GoodsDto.builder()
-                .id(goodsJpaEntity.getId())
-                .goodsName(goodsJpaEntity.getGoodsName())
-                .viewCount(goodsJpaEntity.getViewCount())
-                .status(goodsJpaEntity.getStatus())
-                .sellPrice(goodsJpaEntity.getSellPrice())
-                .description(goodsJpaEntity.getDescription())
-                .createdAt(goodsJpaEntity.getCreatedAt())
-                .updatedAt(goodsJpaEntity.getUpdatedAt())
+                .id(goods.getGoodsId())
+                .goodsName(goods.getGoodsName())
+                .viewCount(goods.getViewCount())
+                .goodsStatus(goods.getStatus())
+                .sellPrice(goods.getSellPrice())
+                .description(goods.getDescription())
+                .createdAt(goods.getCreatedAt())
+                .updatedAt(goods.getUpdatedAt())
                 .build();
     }
 

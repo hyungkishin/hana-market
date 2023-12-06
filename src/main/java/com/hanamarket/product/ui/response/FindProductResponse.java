@@ -1,7 +1,7 @@
 package com.hanamarket.product.ui.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hanamarket.product.domain.GoodsJpaEntity;
+import com.hanamarket.product.domain.Goods;
 import com.hanamarket.product.domain.GoodsStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -48,15 +48,15 @@ public class FindProductResponse {
         this.updatedAt = updatedAt;
     }
 
-    public static FindProductResponse of(GoodsJpaEntity goodsJpaEntity) {
+    public static FindProductResponse of(Goods goods) {
         return FindProductResponse.builder()
-                .productName(goodsJpaEntity.getGoodsName())
-                .viewCount(goodsJpaEntity.getViewCount())
-                .status(goodsJpaEntity.getStatus())
-                .sellPrice(goodsJpaEntity.getSellPrice())
-                .description(goodsJpaEntity.getDescription())
-                .createdAt(goodsJpaEntity.getCreatedAt())
-                .updatedAt(goodsJpaEntity.getUpdatedAt())
+                .productName(goods.getGoodsName())
+                .viewCount(goods.getViewCount())
+                .status(goods.getStatus())
+                .sellPrice(goods.getSellPrice())
+                .description(goods.getDescription())
+                .createdAt(goods.getCreatedAt())
+                .updatedAt(goods.getUpdatedAt())
                 .build();
     }
 
