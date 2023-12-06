@@ -14,7 +14,6 @@ public class DBConfiguration {
         super();
     }
 
-
     @Primary
     @Bean(name = "DataSource")
     public DataSource batchdbDataSource(DBProperties properties) {
