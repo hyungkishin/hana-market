@@ -4,7 +4,7 @@ import com.hanamarket.common.exception.MarketRuntimeException;
 import com.hanamarket.common.exception.message.ProductErrorCode;
 import com.hanamarket.product.domain.Goods;
 import com.hanamarket.product.domain.GoodsRepository;
-import com.hanamarket.product.ui.request.CreateProductRequest;
+import com.hanamarket.product.ui.request.GoodsRequest;
 import com.hanamarket.product.ui.request.GoodsSearchRequest;
 import com.hanamarket.product.ui.response.CreateProductResponse;
 import com.hanamarket.product.ui.response.FindProductResponse;
@@ -29,17 +29,19 @@ public class GoodsService {
     private final GoodsRepository goodsRepository;
 
     @Transactional
-    public CreateProductResponse createGoods(final CreateProductRequest request) {
+    public CreateProductResponse createGoods(final GoodsRequest request) {
         Goods createProduct = goodsRepository.save(request.toEntity());
-
         return CreateProductResponse.of(createProduct.getGoodsId());
     }
 
     public FindProductResponse findByGoods(final Long productId) {
-        Goods goods = goodsRepository.findById(productId)
-                .orElseThrow(() -> new MarketRuntimeException(ProductErrorCode.NOT_FOUND_PRODUCT, "존재하지 않는 상품입니다"));
-
+        Goods goods = findGoods(productId);
         return FindProductResponse.of(goods);
+    }
+
+    private Goods findGoods(Long productId) {
+        return goodsRepository.findById(productId)
+                .orElseThrow(() -> new MarketRuntimeException(ProductErrorCode.NOT_FOUND_PRODUCT, "존재하지 않는 상품입니다"));
     }
 
     public GoodsPageResponse searchGoods(GoodsSearchRequest searchRequest) {
@@ -56,6 +58,11 @@ public class GoodsService {
         PageInfo pageInfo = PageInfo.of(resultPage);
 
         return GoodsPageResponse.of(goodsDtoList, pageInfo);
+    }
+
+    public void update(Long goodsId, GoodsRequest request) {
+        Goods goods = findGoods(goodsId);
+        goods.update(request);
     }
 
 }

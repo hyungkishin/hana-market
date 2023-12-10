@@ -2,6 +2,7 @@ package com.hanamarket.product.domain;
 
 import com.hanamarket.common.converter.CustomEnumType;
 import com.hanamarket.common.converter.CustomType;
+import com.hanamarket.product.ui.request.GoodsRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -63,6 +64,13 @@ public class Goods {
         this.status = status;
         this.sellPrice = sellPrice;
         this.description = description;
+    }
+
+    public void update(GoodsRequest request) {
+        this.goodsName = request.getGoodsName();
+        this.status = request.getStatus();
+        this.sellPrice = request.getSellPrice();
+        this.description = request.getDescription();
     }
 
 }

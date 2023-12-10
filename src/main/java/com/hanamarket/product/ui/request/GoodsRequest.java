@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CreateProductRequest {
+public class GoodsRequest {
 
     private String goodsName;
 
