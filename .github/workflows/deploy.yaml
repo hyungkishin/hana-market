@@ -25,11 +25,17 @@ jobs:
           java-version: 17
 
       - name: Set yaml file
-        run: |
-          sed -i 's|spring.datasource.url:.*|spring.datasource.url: '${{ secrets.RDS_HOST }}'|' ${{ env.RESOURCE_PATH }}
-          sed -i 's|spring.datasource.username:.*|spring.datasource.username: '${{ secrets.RDS_USERNAME }}'|' ${{ env.RESOURCE_PATH }}
-          sed -i 's|spring.datasource.password:.*|spring.datasource.password: '${{ secrets.RDS_PASSWORD }}'|' ${{ env.RESOURCE_PATH }}
-        shell: bash
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.RESOURCE_PATH }}
+        env:
+          spring.datasource.write.url: ${{ secrets.RDS_WRITE_HOST }}
+          spring.datasource.write.username: ${{ secrets.RDS_WRITE_USER_NAME }}
+          spring.datasource.write.password: ${{secrets.RDS_WRITE_PASSWORD}}
+
+          spring.datasource.read.url: ${{ secrets.RDS_READ_HOST }}
+          spring.datasource.read.username: ${{ secrets.RDS_READ_USER_NAME }}
+          spring.datasource.read.password: ${{ secrets.RDS_READ_PASSWORD }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew

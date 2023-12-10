@@ -31,7 +31,7 @@ public class GoodsController {
 
     @GetMapping("/{goodsId}")
     private FindProductResponse findByProduct(@PathVariable final Long goodsId) {
-        return goodsService.findByGoods(goodsId);
+        return goodsService.findGoods(goodsId);
     }
 
     @GetMapping("/search")

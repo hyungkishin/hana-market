@@ -1,3 +1,6 @@
+### 프로파일 설정 하지 않을시,Local 로 설정
+spring.profiles.active: local
+
 spring:
   jpa:
     open-in-view: false
@@ -9,57 +12,26 @@ spring:
       ddl-auto: create
     generate-ddl: true
 
-  h2:
-    console:
-      enabled: false
-      path: /h2-console
-
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:test
-    username: user
-    password:
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: 'jdbc:mysql://hanamarket-rds.cy5zap5los6d.ap-northeast-2.rds.amazonaws.com:3306/hmarket'
-#    username: 'admin'
-#    password: 'hana123!'
-
-#  datasource:
-#    write:
-#      driver-class-name: org.mariadb.jdbc.Driver
-#      jdbc-url: ${datasource-write-jdbc-url}
-#      username: ${datasource-write-username}
-#      password: ${datasource-write-password}
-#      hikari:
-#        minimum-idle: 5
-#        maximum-pool-size: 100
-#        max-lifetime: 28800000
-#        keepalive-time: 60000
-#        idle-timeout: 60000
-#    read:
-#      driver-class-name: org.mariadb.jdbc.Driver
-#      jdbc-url: ${datasource-read-jdbc-url}
-#      username: ${datasource-read-username}
-#      password: ${datasource-read-password}
-#      hikari:
-#        minimum-idle: 5
-#        maximum-pool-size: 100
-#        max-lifetime: 28800000
-#        keepalive-time: 60000
-#        idle-timeout: 60000
-
-#
-#---
-#spring:
-#  config:
-#    activate:
-#      on-profile: test
-#
-#  jpa:
-#    hibernate:
-#      ddl-auto: create
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        format_sql: true
+    write:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: ''
+      username: ''
+      password: ''
+      hikari:
+        minimum-idle: 5
+        maximum-pool-size: 100
+        max-lifetime: 28800000
+        keepalive-time: 60000
+        idle-timeout: 60000
+    read:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: ''
+      username: ''
+      password: ''
+      hikari:
+        minimum-idle: 5
+        maximum-pool-size: 100
+        max-lifetime: 28800000
+        keepalive-time: 60000
+        idle-timeout: 60000

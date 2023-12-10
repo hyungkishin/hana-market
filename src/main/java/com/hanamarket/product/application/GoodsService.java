@@ -34,12 +34,12 @@ public class GoodsService {
         return CreateProductResponse.of(createProduct.getGoodsId());
     }
 
-    public FindProductResponse findByGoods(final Long productId) {
-        Goods goods = findGoods(productId);
+    public FindProductResponse findGoods(final Long productId) {
+        Goods goods = findById(productId);
         return FindProductResponse.of(goods);
     }
 
-    private Goods findGoods(Long productId) {
+    private Goods findById(Long productId) {
         return goodsRepository.findById(productId)
                 .orElseThrow(() -> new MarketRuntimeException(ProductErrorCode.NOT_FOUND_PRODUCT, "존재하지 않는 상품입니다"));
     }
@@ -60,8 +60,9 @@ public class GoodsService {
         return GoodsPageResponse.of(goodsDtoList, pageInfo);
     }
 
+    @Transactional
     public void update(Long goodsId, GoodsRequest request) {
-        Goods goods = findGoods(goodsId);
+        Goods goods = findById(goodsId);
         goods.update(request);
     }
 

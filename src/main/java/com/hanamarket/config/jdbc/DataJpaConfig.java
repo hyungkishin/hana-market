@@ -1,4 +1,4 @@
-package com.hanamarket.config;
+package com.hanamarket.config.jdbc;
 
 import com.hanamarket.HanaMarketApplication;
 import org.hibernate.cfg.AvailableSettings;
@@ -14,7 +14,6 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-//@EnableJpaAuditing
 @EnableTransactionManagement
 @Configuration
 public class DataJpaConfig {
