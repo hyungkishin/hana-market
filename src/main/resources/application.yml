@@ -15,9 +15,9 @@ spring:
   datasource:
     write:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: ''
-      username: ''
-      password: ''
+      jdbc-url: 'jdbc:mysql://hana-market-rdb.ccb5xjcxwfiy.ap-northeast-2.rds.amazonaws.com:3306/hmarket'
+      username: 'admin'
+      password: 'hana123!'
       hikari:
         minimum-idle: 5
         maximum-pool-size: 100
@@ -26,9 +26,9 @@ spring:
         idle-timeout: 60000
     read:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      jdbc-url: ''
-      username: ''
-      password: ''
+      jdbc-url: 'jdbc:mysql://hana-market-read.ccb5xjcxwfiy.ap-northeast-2.rds.amazonaws.com/hmarket'
+      username: 'admin'
+      password: 'hana123!'
       hikari:
         minimum-idle: 5
         maximum-pool-size: 100
