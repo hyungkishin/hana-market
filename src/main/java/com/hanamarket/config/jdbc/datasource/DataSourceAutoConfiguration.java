@@ -73,7 +73,7 @@ public class DataSourceAutoConfiguration {
 
         log.info("### DataSourceAutoConfiguration: 'routingDataSource'");
         return ReplicationRoutingDataSource.of(writeDataSource(writeProperties),
-                readDataSource(readProperties));
+                writeDataSource(writeProperties));
     }
 
     @Bean

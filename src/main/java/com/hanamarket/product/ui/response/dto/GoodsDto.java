@@ -1,5 +1,6 @@
 package com.hanamarket.product.ui.response.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hanamarket.product.domain.Goods;
 import com.hanamarket.product.domain.GoodsStatus;
 import lombok.Builder;
@@ -7,7 +8,6 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-// 씁 .... 얘를 어디다 둔다....
 @Getter
 @Builder
 public class GoodsDto {
@@ -24,8 +24,10 @@ public class GoodsDto {
 
     private String description;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
     public static GoodsDto of(Goods goods) {

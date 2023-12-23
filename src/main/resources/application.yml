@@ -9,8 +9,8 @@ spring:
         default_batch_fetch_size: 1000
         physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     hibernate:
-      ddl-auto: create
-    generate-ddl: true
+      ddl-auto: validate
+    generate-ddl: false
 
   datasource:
     write:

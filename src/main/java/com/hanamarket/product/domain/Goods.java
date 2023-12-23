@@ -33,7 +33,7 @@ public class Goods {
     private int viewCount;
 
     @Column(name = "GOODS_STATUS")
-    @CustomType(type = CustomEnumType.NAME)
+    @Enumerated(EnumType.STRING)
     private GoodsStatus status;
 
     @Column(name = "SELL_PRICE")
