@@ -8,19 +8,18 @@ import com.hanamarket.product.ui.request.GoodsRequest;
 import com.hanamarket.product.ui.request.GoodsSearchRequest;
 import com.hanamarket.product.ui.response.CreateProductResponse;
 import com.hanamarket.product.ui.response.FindProductResponse;
-import com.hanamarket.product.ui.response.GoodsPageResponse;
+import com.hanamarket.product.ui.response.PageDto;
 import com.hanamarket.product.ui.response.dto.GoodsDto;
-import com.hanamarket.product.ui.response.dto.PageInfo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -44,20 +43,15 @@ public class GoodsService {
                 .orElseThrow(() -> new MarketRuntimeException(ProductErrorCode.NOT_FOUND_PRODUCT, "존재하지 않는 상품입니다"));
     }
 
-    public GoodsPageResponse searchGoods(GoodsSearchRequest searchRequest) {
-        Specification<Goods> spec = searchRequest.withSearchParameters();
-        PageRequest pageRequest = PageRequest.of(searchRequest.getPage(), searchRequest.getSize());
+    public PageDto<GoodsDto> searchGoods(GoodsSearchRequest searchRequest) {
+        if(! searchRequest.hasOtherCriteria()) {
+            Page<Goods> goodsList = goodsRepository.findAll(searchRequest.getPageable());
+            return PageDto.of(goodsList, GoodsDto::of);
+        }
 
-        Page<Goods> resultPage = goodsRepository.findAll(spec, pageRequest);
+        Page<Goods> goodsList = goodsRepository.findAll(searchRequest.getSpec(), searchRequest.getPageable());
 
-        List<GoodsDto> goodsDtoList = resultPage.getContent()
-                .stream()
-                .map(GoodsDto::fromEntity)
-                .collect(Collectors.toList());
-
-        PageInfo pageInfo = PageInfo.of(resultPage);
-
-        return GoodsPageResponse.of(goodsDtoList, pageInfo);
+        return PageDto.of(goodsList, GoodsDto::of);
     }
 
     @Transactional

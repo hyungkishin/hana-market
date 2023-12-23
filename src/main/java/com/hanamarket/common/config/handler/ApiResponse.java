@@ -1,4 +1,4 @@
-package com.hanamarket.common.handler;
+package com.hanamarket.common.config.handler;
 
 import lombok.Getter;
 

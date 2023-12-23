@@ -28,7 +28,7 @@ public class GoodsDto {
 
     private LocalDateTime updatedAt;
 
-    public static GoodsDto fromEntity(Goods goods) {
+    public static GoodsDto of(Goods goods) {
         return GoodsDto.builder()
                 .id(goods.getGoodsId())
                 .goodsName(goods.getGoodsName())

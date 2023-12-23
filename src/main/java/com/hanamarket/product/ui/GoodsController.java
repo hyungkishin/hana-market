@@ -5,9 +5,11 @@ import com.hanamarket.product.ui.request.GoodsRequest;
 import com.hanamarket.product.ui.request.GoodsSearchRequest;
 import com.hanamarket.product.ui.response.CreateProductResponse;
 import com.hanamarket.product.ui.response.FindProductResponse;
-import com.hanamarket.product.ui.response.GoodsPageResponse;
+import com.hanamarket.product.ui.response.PageDto;
+import com.hanamarket.product.ui.response.dto.GoodsDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,9 +36,9 @@ public class GoodsController {
         return goodsService.findGoods(goodsId);
     }
 
-    @GetMapping("/search")
-    public GoodsPageResponse searchProducts(@ModelAttribute GoodsSearchRequest criteria) {
-        return goodsService.searchGoods(criteria);
+    @GetMapping
+    public PageDto<GoodsDto> searchProducts(@ModelAttribute GoodsSearchRequest request) {
+        return goodsService.searchGoods(request);
     }
 
     @PutMapping("/{goodsId}")

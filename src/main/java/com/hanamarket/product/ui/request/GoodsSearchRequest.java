@@ -1,5 +1,6 @@
 package com.hanamarket.product.ui.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hanamarket.common.annotation.ColumnDescription;
 import com.hanamarket.product.domain.Goods;
 import com.hanamarket.product.domain.GoodsStatus;
@@ -7,7 +8,11 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -57,42 +62,53 @@ public class GoodsSearchRequest {
         return this.size;
     }
 
-    public Specification<Goods> withSearchParameters() {
-        return (root, query, criteriaBuilder) -> {
+    public boolean hasOtherCriteria() {
+        return !ObjectUtils.isEmpty(startDate)
+                || !ObjectUtils.isEmpty(endDate)
+                || (minPrice != 0 || maxPrice != 0)
+                || status != null;
+    }
 
+    private boolean hasMinMaxSellPrice() {
+        return ! (minPrice == 0 && maxPrice == 0);
+    }
+
+    private boolean hasStartAtAndEndAt() {
+        return !ObjectUtils.isEmpty(startDate) && !ObjectUtils.isEmpty(endDate);
+    }
+
+    @JsonIgnore
+    public Specification<Goods> getSpec() {
+
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if (startDate != null) {
-                LocalDateTime parsedStartDate = parseDate(startDate);
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), parsedStartDate));
+            if (hasStartAtAndEndAt()) {
+                LocalDateTime startAt = parseDate(startDate).atTime(LocalTime.MIN);
+                LocalDateTime endAt = parseDate(endDate).atTime(LocalTime.MAX);
+                predicates.add(criteriaBuilder.between(root.get("createdAt"), startAt, endAt));
             }
 
-            if (endDate != null) {
-                LocalDateTime parsedEndDate = parseDate(endDate);
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), parsedEndDate));
-            }
-
-            if (minPrice >= 0) {
+            if (hasMinMaxSellPrice()) {
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("sellPrice"), minPrice));
-            }
-
-            if (maxPrice >= 0) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("sellPrice"), maxPrice));
+                predicates.add(criteriaBuilder.between(root.get("sellPrice"), minPrice, maxPrice));
             }
 
             if (status != null) {
                 predicates.add(criteriaBuilder.equal(root.get("status"), status));
             }
 
-            Predicate[] predicatesArray = predicates.toArray(new Predicate[0]);
-
-            return criteriaBuilder.and(predicatesArray);
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
 
-    private LocalDateTime parseDate(String date) {
-        return LocalDateTime.of(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")), LocalTime.MIN);
+    @JsonIgnore
+    public Pageable getPageable() {
+        return PageRequest.of(getPage() - 1, getSize(), Sort.by("goodsId").descending());
     }
 
+    private LocalDate parseDate(String date) {
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
 
 }
