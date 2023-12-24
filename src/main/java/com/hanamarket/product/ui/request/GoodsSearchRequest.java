@@ -62,13 +62,6 @@ public class GoodsSearchRequest {
         return this.size;
     }
 
-    public boolean hasOtherCriteria() {
-        return !ObjectUtils.isEmpty(startDate)
-                || !ObjectUtils.isEmpty(endDate)
-                || (minPrice != 0 || maxPrice != 0)
-                || status != null;
-    }
-
     private boolean hasMinMaxSellPrice() {
         return ! (minPrice == 0 && maxPrice == 0);
     }

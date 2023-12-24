@@ -44,13 +44,7 @@ public class GoodsService {
     }
 
     public PageDto<GoodsDto> searchGoods(GoodsSearchRequest searchRequest) {
-        if(! searchRequest.hasOtherCriteria()) {
-            Page<Goods> goodsList = goodsRepository.findAll(searchRequest.getPageable());
-            return PageDto.of(goodsList, GoodsDto::of);
-        }
-
         Page<Goods> goodsList = goodsRepository.findAll(searchRequest.getSpec(), searchRequest.getPageable());
-
         return PageDto.of(goodsList, GoodsDto::of);
     }
 
