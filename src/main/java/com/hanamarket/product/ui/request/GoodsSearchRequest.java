@@ -26,11 +26,11 @@ import java.util.List;
 public class GoodsSearchRequest {
 
     @ColumnDescription("현재페이지")
-    @NotNull
+    @NotNull(message = "page 는 필수 값 입니다")
     private Integer page;
 
     @ColumnDescription("페이지당 건수")
-    @NotNull
+    @NotNull(message = "size 는 필수 값 입니다")
     private Integer size;
 
     @ColumnDescription("시작 일자")
