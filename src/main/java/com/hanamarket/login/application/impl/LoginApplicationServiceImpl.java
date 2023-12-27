@@ -2,6 +2,7 @@ package com.hanamarket.login.application.impl;
 
 import com.hanamarket.common.exception.MarketRuntimeException;
 import com.hanamarket.login.application.LoginApplicationService;
+import com.hanamarket.login.application.command.LoginCommand;
 import com.hanamarket.login.application.command.RegisterCommand;
 import com.hanamarket.login.application.error.LoginApplicationError;
 import com.hanamarket.login.domain.Member;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,20 +30,33 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
     private static final Pattern emailPattern = Pattern.compile(EMAIL_REGEX);
     private static final Pattern passwordPattern = Pattern.compile(PASSWORD_REGEX);
 
-    private final MemberRepository memberRepository;
+    // encoder
     private final PasswordEncoder passwordEncoder;
+
+    // repository
+    private final MemberRepository memberRepository;
 
     @Transactional
     @Override
     public void register(RegisterCommand registerCommand) {
         // 이메일은 Unique 해야하기때문에 email 로 계정 조회
-        checkDuplicatedEmail(registerCommand);
+        checkDuplicatedEmail(registerCommand.email());
 
         // 계정 정보 체크
         checkRegisterData(registerCommand);
 
         // 회원가입 완료
         saveAccount(registerCommand);
+    }
+
+    @Override
+    public void login(LoginCommand loginCommand) {
+        Member member = memberRepository.findByEmail(loginCommand.email())
+                .orElseThrow(() -> new MarketRuntimeException(LoginApplicationError.NOT_FOUND_MEMBER));
+
+        if (!member.checkLogin(loginCommand)) {
+            throw new MarketRuntimeException(LoginApplicationError.LOGIN_FAIL);
+        }
     }
 
     private void saveAccount(RegisterCommand registerCommand) {
@@ -66,8 +81,8 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
         }
     }
 
-    private void checkDuplicatedEmail(RegisterCommand registerCommand) {
-        Boolean existsMemberByEmail = memberRepository.existsMemberByEmail(registerCommand.email());
+    private void checkDuplicatedEmail(String email) {
+        Boolean existsMemberByEmail = memberRepository.existsMemberByEmail(email);
 
         if (existsMemberByEmail) {
             throw new MarketRuntimeException(LoginApplicationError.DUPLICATE_EMAIL_ERROR);
