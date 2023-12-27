@@ -34,14 +34,17 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
     @Transactional
     @Override
     public void register(RegisterCommand registerCommand) {
-        if (!isValidEmail(registerCommand.email())) {
-            throw new MarketRuntimeException(LoginApplicationError.VALIDATE_EMAIL);
-        }
+        // 이메일은 Unique 해야하기때문에 email 로 계정 조회
+        checkDuplicatedEmail(registerCommand);
 
-        if (!isValidPassword(registerCommand.password())) {
-            throw new MarketRuntimeException(LoginApplicationError.VALIDATE_PASSWORD);
-        }
+        // 계정 정보 체크
+        checkRegisterData(registerCommand);
 
+        // 회원가입 완료
+        saveAccount(registerCommand);
+    }
+
+    private void saveAccount(RegisterCommand registerCommand) {
         Member member = Member.builder()
                 .email(registerCommand.email())
                 .password(passwordEncoder.encode(registerCommand.password())) // password 암호화
@@ -51,6 +54,24 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
         log.info("member : {}", member);
 
         memberRepository.save(member);
+    }
+
+    private void checkRegisterData(RegisterCommand registerCommand) {
+        if (!isValidEmail(registerCommand.email())) {
+            throw new MarketRuntimeException(LoginApplicationError.VALIDATE_EMAIL);
+        }
+
+        if (!isValidPassword(registerCommand.password())) {
+            throw new MarketRuntimeException(LoginApplicationError.VALIDATE_PASSWORD);
+        }
+    }
+
+    private void checkDuplicatedEmail(RegisterCommand registerCommand) {
+        Boolean existsMemberByEmail = memberRepository.existsMemberByEmail(registerCommand.email());
+
+        if (existsMemberByEmail) {
+            throw new MarketRuntimeException(LoginApplicationError.DUPLICATE_EMAIL_ERROR);
+        }
     }
 
     private boolean isValidEmail(String email) {
