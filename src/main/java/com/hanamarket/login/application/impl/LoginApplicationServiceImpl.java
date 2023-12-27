@@ -11,12 +11,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Slf4j
 public class LoginApplicationServiceImpl implements LoginApplicationService {
 
@@ -27,10 +29,34 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
     private static final Pattern passwordPattern = Pattern.compile(PASSWORD_REGEX);
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
-
+    @Transactional
     @Override
     public void register(RegisterCommand registerCommand) {
+        // 이메일은 Unique 해야하기때문에 email 로 계정 조회
+        checkDuplicatedEmail(registerCommand);
+
+        // 계정 정보 체크
+        checkRegisterData(registerCommand);
+
+        // 회원가입 완료
+        saveAccount(registerCommand);
+    }
+
+    private void saveAccount(RegisterCommand registerCommand) {
+        Member member = Member.builder()
+                .email(registerCommand.email())
+                .password(passwordEncoder.encode(registerCommand.password())) // password 암호화
+                .nickname(registerCommand.nickname())
+                .build();
+
+        log.info("member : {}", member);
+
+        memberRepository.save(member);
+    }
+
+    private void checkRegisterData(RegisterCommand registerCommand) {
         if (!isValidEmail(registerCommand.email())) {
             throw new MarketRuntimeException(LoginApplicationError.VALIDATE_EMAIL);
         }
@@ -38,14 +64,14 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
         if (!isValidPassword(registerCommand.password())) {
             throw new MarketRuntimeException(LoginApplicationError.VALIDATE_PASSWORD);
         }
+    }
 
-        Member member = Member.builder()
-                .email(registerCommand.email())
-                .password(registerCommand.password())
-                .nickname(registerCommand.nickname())
-                .build();
+    private void checkDuplicatedEmail(RegisterCommand registerCommand) {
+        Boolean existsMemberByEmail = memberRepository.existsMemberByEmail(registerCommand.email());
 
-        memberRepository.save(member);
+        if (existsMemberByEmail) {
+            throw new MarketRuntimeException(LoginApplicationError.DUPLICATE_EMAIL_ERROR);
+        }
     }
 
     private boolean isValidEmail(String email) {
