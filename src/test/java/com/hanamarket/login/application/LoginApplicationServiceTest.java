@@ -1,5 +1,6 @@
 package com.hanamarket.login.application;
 
+import com.hanamarket.common.exception.MarketRuntimeException;
 import com.hanamarket.login.application.command.RegisterCommand;
 import com.hanamarket.login.domain.Member;
 import com.hanamarket.login.infrastructure.dto.RegisterRequest;
@@ -35,7 +36,7 @@ class LoginApplicationServiceTest {
 
         // when
         // then
-        assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> loginApplicationService.register(command));
+        assertThatExceptionOfType(MarketRuntimeException.class).isThrownBy(() -> loginApplicationService.register(command));
     }
 
     @Test
@@ -46,6 +47,6 @@ class LoginApplicationServiceTest {
 
         // when
         // then
-        assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> loginApplicationService.register(command));
+        assertThatExceptionOfType(MarketRuntimeException.class).isThrownBy(() -> loginApplicationService.register(command));
     }
 }
