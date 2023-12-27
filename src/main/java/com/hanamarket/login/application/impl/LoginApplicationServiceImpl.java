@@ -11,12 +11,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Slf4j
 public class LoginApplicationServiceImpl implements LoginApplicationService {
 
@@ -27,8 +29,9 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
     private static final Pattern passwordPattern = Pattern.compile(PASSWORD_REGEX);
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
-
+    @Transactional
     @Override
     public void register(RegisterCommand registerCommand) {
         if (!isValidEmail(registerCommand.email())) {
@@ -41,9 +44,11 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
 
         Member member = Member.builder()
                 .email(registerCommand.email())
-                .password(registerCommand.password())
+                .password(passwordEncoder.encode(registerCommand.password())) // password 암호화
                 .nickname(registerCommand.nickname())
                 .build();
+
+        log.info("member : {}", member);
 
         memberRepository.save(member);
     }

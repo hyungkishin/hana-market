@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 @Entity
+@ToString
 @Table(name = "MEMBER")
 public class Member extends Audit {
 
