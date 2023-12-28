@@ -1,6 +1,7 @@
 package com.hanamarket.login.domain;
 
 import com.hanamarket.common.jpa.model.Audit;
+import com.hanamarket.login.application.command.LoginCommand;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,4 +42,9 @@ public class Member extends Audit {
     @Column(name = "VERIFIED", nullable = false)
     @Builder.Default
     private Boolean verified = true;
+
+    public Boolean checkLogin(LoginCommand loginCommand) {
+        return loginCommand.email().equals(this.email)
+                && loginCommand.password().equals(this.password);
+    }
 }

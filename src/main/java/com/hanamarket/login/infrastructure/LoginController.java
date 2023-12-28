@@ -1,6 +1,7 @@
 package com.hanamarket.login.infrastructure;
 
 import com.hanamarket.login.application.LoginApplicationService;
+import com.hanamarket.login.infrastructure.dto.LoginRequest;
 import com.hanamarket.login.infrastructure.dto.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,5 +17,10 @@ public class LoginController {
     @PostMapping("/register")
     public void register(@RequestBody RegisterRequest registerRequest) {
         loginApplicationService.register(registerRequest.toCommand());
+    }
+
+    @PostMapping("/login")
+    public void login(@RequestBody LoginRequest loginRequest) {
+        loginApplicationService.login(loginRequest.toCommand());
     }
 }
