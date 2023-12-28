@@ -60,13 +60,6 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
 
     @Override
     public JwtToken login(LoginCommand loginCommand) {
-        Member member = memberRepository.findByEmail(loginCommand.email())
-                .orElseThrow(() -> new MarketRuntimeException(LoginApplicationError.NOT_FOUND_MEMBER));
-
-        if (!member.checkLogin(loginCommand)) {
-            throw new MarketRuntimeException(LoginApplicationError.LOGIN_FAIL);
-        }
-
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginCommand.email(), loginCommand.password());
         Authentication authenticate = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 

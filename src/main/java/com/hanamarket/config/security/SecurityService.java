@@ -24,14 +24,13 @@ public class SecurityService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByEmail(username)
                 .map(this::createUserDetails)
-                .orElseThrow(() -> new MarketRuntimeException(LoginError.NOT_FOUND_ACCOUNT))
-                ;
+                .orElseThrow(() -> new MarketRuntimeException(LoginError.NOT_FOUND_ACCOUNT));
     }
 
     private UserDetails createUserDetails(Member member) {
         return User.builder()
                 .username(member.getEmail())
-                .password(passwordEncoder.encode(member.getPassword()))
+                .password(member.getPassword())
                 .roles("USER")
                 .build();
     }
