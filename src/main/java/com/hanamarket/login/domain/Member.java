@@ -42,9 +42,4 @@ public class Member extends Audit {
     @Column(name = "VERIFIED", nullable = false)
     @Builder.Default
     private Boolean verified = true;
-
-    public Boolean checkLogin(LoginCommand loginCommand) {
-        return loginCommand.email().equals(this.email)
-                && loginCommand.password().equals(this.password);
-    }
 }

@@ -12,6 +12,7 @@ public enum LoginError implements ErrorCode {
     JWT_TOKEN_INVALIED("LOGIN_002", "유효하지않는 토큰입니다."),
     JWT_TOKEN_EXPIRED("LOGIN_003", "만료된 토큰입니다."),
     JWT_TOKEN_UNSUPPORT("LOGIN_004", "지원하지않는 토큰입니다."),
+    NOT_FOUND_ACCOUNT("LOGIN_005", "해당하는 회원을 찾을 수 없습니다."),
     ;
 
     String code;

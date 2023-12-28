@@ -1,5 +1,6 @@
 package com.hanamarket.login.infrastructure;
 
+import com.hanamarket.config.security.JwtToken;
 import com.hanamarket.login.application.LoginApplicationService;
 import com.hanamarket.login.infrastructure.dto.LoginRequest;
 import com.hanamarket.login.infrastructure.dto.RegisterRequest;
@@ -20,7 +21,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody LoginRequest loginRequest) {
-        loginApplicationService.login(loginRequest.toCommand());
+    public JwtToken login(@RequestBody LoginRequest loginRequest) {
+        return loginApplicationService.login(loginRequest.toCommand());
     }
 }

@@ -1,8 +1,9 @@
 package com.hanamarket.login.application;
 
 import com.hanamarket.common.exception.MarketRuntimeException;
+import com.hanamarket.config.security.JwtToken;
 import com.hanamarket.login.application.command.RegisterCommand;
-import com.hanamarket.login.domain.Member;
+import com.hanamarket.login.infrastructure.dto.LoginRequest;
 import com.hanamarket.login.infrastructure.dto.RegisterRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class LoginApplicationServiceTest {
@@ -60,6 +60,20 @@ class LoginApplicationServiceTest {
         // when
         // then
         assertThatExceptionOfType(MarketRuntimeException.class).isThrownBy(() -> loginApplicationService.register(command));
+    }
+
+
+    @Test
+    public void 로그인이_될까용 () {
+        // given
+        LoginRequest loginRequest = new LoginRequest("eojin312@naver.com", "testPassword");
+
+        // when
+        JwtToken loginToken = loginApplicationService.login(loginRequest.toCommand());
+
+        // then
+        System.out.println(loginToken);
+        Assertions.assertNotNull(loginToken);
     }
 
     public String randomEmail() {

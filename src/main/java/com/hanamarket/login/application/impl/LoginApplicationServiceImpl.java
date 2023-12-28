@@ -1,6 +1,8 @@
 package com.hanamarket.login.application.impl;
 
 import com.hanamarket.common.exception.MarketRuntimeException;
+import com.hanamarket.config.security.JwtToken;
+import com.hanamarket.config.security.JwtTokenProvider;
 import com.hanamarket.login.application.LoginApplicationService;
 import com.hanamarket.login.application.command.LoginCommand;
 import com.hanamarket.login.application.command.RegisterCommand;
@@ -10,6 +12,9 @@ import com.hanamarket.login.domain.repository.MemberRepository;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +41,10 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
     // repository
     private final MemberRepository memberRepository;
 
+    // provider
+    private final JwtTokenProvider jwtTokenProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
     @Transactional
     @Override
     public void register(RegisterCommand registerCommand) {
@@ -50,13 +59,10 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
     }
 
     @Override
-    public void login(LoginCommand loginCommand) {
-        Member member = memberRepository.findByEmail(loginCommand.email())
-                .orElseThrow(() -> new MarketRuntimeException(LoginApplicationError.NOT_FOUND_MEMBER));
-
-        if (!member.checkLogin(loginCommand)) {
-            throw new MarketRuntimeException(LoginApplicationError.LOGIN_FAIL);
-        }
+    public JwtToken login(LoginCommand loginCommand) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginCommand.email(), loginCommand.password());
+        authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        return jwtTokenProvider.generateToken(authenticationToken);
     }
 
     private void saveAccount(RegisterCommand registerCommand) {
