@@ -61,8 +61,7 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
     @Override
     public JwtToken login(LoginCommand loginCommand) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginCommand.email(), loginCommand.password());
-        Authentication authenticate = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
+        authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         return jwtTokenProvider.generateToken(authenticationToken);
     }
 
