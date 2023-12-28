@@ -35,3 +35,5 @@ spring:
         max-lifetime: 28800000
         keepalive-time: 60000
         idle-timeout: 60000
+jwt:
+  secret-key: dc28245d0b68e25a1080301bb61b3cc71c937e4d162863cc01d9c15ecec33277
