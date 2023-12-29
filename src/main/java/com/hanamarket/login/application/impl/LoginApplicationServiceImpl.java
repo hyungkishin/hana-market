@@ -13,6 +13,7 @@ import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -67,6 +68,8 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
             return jwtTokenProvider.generateToken(authenticationToken);
         } catch (BadCredentialsException e) {
             throw new MarketRuntimeException(LoginApplicationError.LOGIN_FAIL);
+        } catch (InternalAuthenticationServiceException e) {
+            throw new MarketRuntimeException(LoginApplicationError.NOT_FOUND_MEMBER);
         }
     }
 
