@@ -12,6 +12,7 @@ import com.hanamarket.login.domain.repository.MemberRepository;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -61,8 +62,12 @@ public class LoginApplicationServiceImpl implements LoginApplicationService {
     @Override
     public JwtToken login(LoginCommand loginCommand) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginCommand.email(), loginCommand.password());
-        authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        return jwtTokenProvider.generateToken(authenticationToken);
+        try {
+            authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+            return jwtTokenProvider.generateToken(authenticationToken);
+        } catch (BadCredentialsException e) {
+            throw new MarketRuntimeException(LoginApplicationError.LOGIN_FAIL);
+        }
     }
 
     private void saveAccount(RegisterCommand registerCommand) {
