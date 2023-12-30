@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class LoginApplicationServiceTest {
@@ -72,9 +73,27 @@ class LoginApplicationServiceTest {
         JwtToken loginToken = loginApplicationService.login(loginRequest.toCommand());
 
         // then
-        System.out.println(loginToken);
         Assertions.assertNotNull(loginToken);
     }
+
+    @Test
+    public void 로그인이_실패도될까용 () {
+        // given
+        LoginRequest loginRequest = new LoginRequest("eojin312@naver.com", "testPass");
+
+        // when & then
+        assertThrows(MarketRuntimeException.class, () -> loginApplicationService.login(loginRequest.toCommand()));
+    }
+
+    @Test
+    public void 이메일이_틀려도될까용 () {
+        // given
+        LoginRequest loginRequest = new LoginRequest("eojin312@", "testPass");
+
+        // when & then
+        assertThrows(MarketRuntimeException.class, () -> loginApplicationService.login(loginRequest.toCommand()));
+    }
+
 
     public String randomEmail() {
         int length = 5;
