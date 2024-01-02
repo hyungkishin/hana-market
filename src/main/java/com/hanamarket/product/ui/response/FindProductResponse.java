@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FindProductResponse {
 
-    private String productName;
+    private String goodsName;
 
     private int viewCount;
 
-    private GoodsStatus status;
+    private GoodsStatus goodsStatus;
 
     private int sellPrice;
 
@@ -32,16 +32,16 @@ public class FindProductResponse {
 
 
     @Builder
-    public FindProductResponse(String productName,
+    public FindProductResponse(String goodsName,
                                int viewCount,
-                               GoodsStatus status,
+                               GoodsStatus goodsStatus,
                                int sellPrice,
                                String description,
                                LocalDateTime createdAt,
                                LocalDateTime updatedAt) {
-        this.productName = productName;
+        this.goodsName = goodsName;
         this.viewCount = viewCount;
-        this.status = status;
+        this.goodsStatus = goodsStatus;
         this.sellPrice = sellPrice;
         this.description = description;
         this.createdAt = createdAt;
@@ -50,9 +50,9 @@ public class FindProductResponse {
 
     public static FindProductResponse of(Goods goods) {
         return FindProductResponse.builder()
-                .productName(goods.getGoodsName())
+                .goodsName(goods.getGoodsName())
                 .viewCount(goods.getViewCount())
-                .status(goods.getStatus())
+                .goodsStatus(goods.getStatus())
                 .sellPrice(goods.getSellPrice())
                 .description(goods.getDescription())
                 .createdAt(goods.getCreatedAt())
